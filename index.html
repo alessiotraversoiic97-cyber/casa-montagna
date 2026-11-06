@@ -44,7 +44,7 @@
 </head>
 <body>
 
-  <div id="setupScreen" class="card">
+  <div id="setupScreen" class="card" style="display: none;">
     <h2>🏔️ Configura Casa Montagna</h2>
     <p>Inserisci l'URL della tua Web App di Google Apps Script per collegare l'applicazione.</p>
     <input type="url" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/..." required>
@@ -63,9 +63,10 @@
     window.addEventListener('DOMContentLoaded', () => {
       const savedUrl = localStorage.getItem(STORAGE_KEY);
       if (savedUrl) {
-        document.getElementById('setupScreen').style.display = 'none';
         document.getElementById('loadingScreen').style.display = 'block';
         window.location.replace(savedUrl);
+      } else {
+        document.getElementById('setupScreen').style.display = 'block';
       }
     });
 
@@ -79,6 +80,8 @@
       }
 
       localStorage.setItem(STORAGE_KEY, url);
+      document.getElementById('setupScreen').style.display = 'none';
+      document.getElementById('loadingScreen').style.display = 'block';
       window.location.replace(url);
     }
 
