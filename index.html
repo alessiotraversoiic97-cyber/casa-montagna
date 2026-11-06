@@ -70,12 +70,13 @@
       }
     });
 
-    function saveUrlAndRedirect() {
+   function saveUrlAndRedirect() {
       const input = document.getElementById('scriptUrlInput');
       const url = input.value.trim();
 
-      if (!url || !url.startsWith('https://script.google.com/')) {
-        alert('Inserisci un URL valido di Google Apps Script (deve iniziare con https://script.google.com/)');
+      // Accetta qualsiasi URL valido che inizi con http:// o https://
+      if (!url || !url.startsWith('http')) {
+        alert('Inserisci un URL valido (deve iniziare con https://)');
         return;
       }
 
