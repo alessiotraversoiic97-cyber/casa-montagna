@@ -12,12 +12,11 @@
   <meta name="color-scheme" content="dark">
   <link rel="manifest" href="manifest.json">
 
-  <!-- SCRIPT PER IL REDIRECT ISTANTANEO A TUTTO SCHERMO -->
   <script>
     const STORAGE_KEY = 'casa_montagna_apps_script_url';
     const savedUrl = localStorage.getItem(STORAGE_KEY);
     
-    // Se l'URL è già salvato, reindirizza immediatamente prima ancora di caricare la grafica
+    // Se l'URL di Google Sites è salvato, reindirizza subito
     if (savedUrl) {
       window.location.replace(savedUrl);
     }
@@ -57,16 +56,14 @@
 </head>
 <body>
 
-  <!-- Schermata di configurazione (visibile solo se non c'è un URL salvato) -->
   <div id="setupScreen" class="card" style="display: none;">
     <h2>🏔️ Configura Casa Montagna</h2>
-    <p>Inserisci l'URL del tuo Google Sites per collegare l'applicazione.</p>
+    <p>Inserisci l'URL del tuo Google Sites per collegare l'applicazione senza errori di autorizzazione.</p>
     <input type="url" id="scriptUrlInput" placeholder="https://sites.google.com/view/..." required>
     <button onclick="saveUrlAndRedirect()">Salva e Apri App</button>
   </div>
 
   <script>
-    // Mostra la schermata di configurazione solo se manca l'URL nel localStorage
     if (!savedUrl) {
       document.getElementById('setupScreen').style.display = 'block';
     }
