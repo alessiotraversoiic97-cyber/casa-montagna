@@ -12,6 +12,17 @@
   <meta name="color-scheme" content="dark">
   <link rel="manifest" href="manifest.json">
 
+  <!-- SCRIPT PER IL REDIRECT ISTANTANEO A TUTTO SCHERMO -->
+  <script>
+    const STORAGE_KEY = 'casa_montagna_apps_script_url';
+    const savedUrl = localStorage.getItem(STORAGE_KEY);
+    
+    // Se l'URL è già salvato, reindirizza immediatamente prima ancora di caricare la grafica
+    if (savedUrl) {
+      window.location.replace(savedUrl);
+    }
+  </script>
+
   <style>
     * { box-sizing: border-box; }
     html, body {
@@ -46,31 +57,19 @@
 </head>
 <body>
 
+  <!-- Schermata di configurazione (visibile solo se non c'è un URL salvato) -->
   <div id="setupScreen" class="card" style="display: none;">
     <h2>🏔️ Configura Casa Montagna</h2>
-    <p>Inserisci l'URL della tua Web App o Google Sites per collegare l'applicazione.</p>
+    <p>Inserisci l'URL del tuo Google Sites per collegare l'applicazione.</p>
     <input type="url" id="scriptUrlInput" placeholder="https://sites.google.com/view/..." required>
     <button onclick="saveUrlAndRedirect()">Salva e Apri App</button>
   </div>
 
-  <div id="loadingScreen" class="card" style="display: none;">
-    <h2>🏔️ Casa Montagna</h2>
-    <p>Apertura in corso...</p>
-    <button class="reset-btn" onclick="clearSavedUrl()">⚙️ Modifica URL salvato</button>
-  </div>
-
   <script>
-    const STORAGE_KEY = 'casa_montagna_apps_script_url';
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedUrl = localStorage.getItem(STORAGE_KEY);
-      if (savedUrl) {
-        document.getElementById('loadingScreen').style.display = 'block';
-        window.location.replace(savedUrl);
-      } else {
-        document.getElementById('setupScreen').style.display = 'block';
-      }
-    });
+    // Mostra la schermata di configurazione solo se manca l'URL nel localStorage
+    if (!savedUrl) {
+      document.getElementById('setupScreen').style.display = 'block';
+    }
 
     function saveUrlAndRedirect() {
       const input = document.getElementById('scriptUrlInput');
@@ -82,14 +81,7 @@
       }
 
       localStorage.setItem(STORAGE_KEY, url);
-      document.getElementById('setupScreen').style.display = 'none';
-      document.getElementById('loadingScreen').style.display = 'block';
       window.location.replace(url);
-    }
-
-    function clearSavedUrl() {
-      localStorage.removeItem(STORAGE_KEY);
-      location.reload();
     }
   </script>
 </body>
